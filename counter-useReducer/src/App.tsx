@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useReducer } from "react";
+import "./App.css";
+
+type IReducerAction = { type: "increment" | "decrement" | "reset" };
+const reducer = (state: number, action: IReducerAction): number => {
+  switch (action.type) {
+    case "increment":
+      return ++state;
+    case "decrement":
+      return --state;
+    case "reset":
+    default:
+      return 0;
+  }
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, dispatch] = useReducer(reducer, 0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      <h5>Counts: {count}</h5>
+      <div className="flex gap-x-2">
+        <button
+          type="button"
+          className="focus:outline-black text-white text-sm py-2.5 px-4 border-b-4 border-blue-600 bg-blue-500 hover:bg-blue-400"
+          onClick={() => dispatch({ type: "increment" })}
+        >
+          Increment
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button
+          type="button"
+          className="focus:outline-black text-white text-sm py-2.5 px-4 border-b-4 border-gray-600 bg-gray-500 hover:bg-gray-400"
+          onClick={() => dispatch({ type: "decrement" })}
+        >
+          Decrement
+        </button>
+        <button
+          type="button"
+          className="focus:outline-black text-white text-sm py-2.5 px-4 border-b-4 border-green-600 bg-green-500 hover:bg-green-400"
+          onClick={() => dispatch({ type: "reset" })}
+        >
+          Reset
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
